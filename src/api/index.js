@@ -1,9 +1,9 @@
-import axios from 'axios';
+import * as productAPI from './product';
+import * as userProductAPI from './user-product';
 
-const apiRoot = axios.create({
-  baseURL: 'http://localhost:1337/api',
-});
+const API = {
+  ...productAPI,
+  ...userProductAPI,
+};
 
-// export default apiRoot;
-
-export const getTestApi = () => apiRoot.get('/test');
+export default API;

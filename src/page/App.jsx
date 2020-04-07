@@ -6,38 +6,13 @@ import { action } from '../redux/index';
 
 import compose from '../helper/compose';
 
-import Test from '../components/Test';
+import Product from './Product';
 
-const App = (props) => {
-  console.log(props);
-  const { fetch } = props;
+const App = (props) => (
+  <div>
+    APP
+    <Product />
+  </div>
+);
 
-  useEffect(() => {
-    fetch();
-  }, []);
-
-  return (
-    <div>
-      APP
-      <Test />
-    </div>
-  );
-};
-
-const mapStateToProps = (state) => state;
-
-const mapDispatchToProps = (dispatch) => {
-  const {
-    fetch,
-  } = action;
-
-  return {
-    ...bindActionCreators({
-      fetch,
-    }, dispatch),
-  };
-};
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(App);
+export default App;
