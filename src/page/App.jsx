@@ -1,18 +1,27 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React from 'react';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import { action } from '../redux/index';
+import ProtectLoginRoute from 'hoc/LoggedInRoute';
+import ProtectLogoutRoute from 'hoc/LoggedOutRoute';
 
-import compose from '../helper/compose';
+import GlobalStyle from '../styles/global';
 
+import Nav from '../components/Nav';
 import Product from './Product';
+import Login from './Login';
 
-const App = (props) => (
-  <div>
-    APP
-    <Product />
-  </div>
+const App = () => (
+  <>
+    <GlobalStyle />
+    <Router>
+      <Nav />
+      <Switch>
+        <ProtectLogoutRoute path="/" exact component={Login} />
+        <ProtectLoginRoute path="/product" exact component={Product} />
+        <Product />
+      </Switch>
+    </Router>
+  </>
 );
 
 export default App;

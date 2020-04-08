@@ -6,6 +6,8 @@ const htmlPlugin = new HtmlWebPackPlugin({
   filename: './index.html',
 });
 
+console.log(path.resolve(__dirname, 'src/hoc/'));
+
 module.exports = {
   entry: './src/index.js', // 進入點
   output: { // 輸出位置
@@ -22,10 +24,23 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   plugins: [htmlPlugin],
   resolve: {
+    alias: {
+      hoc: path.resolve(__dirname, 'src/hoc/'),
+      helper: path.resolve(__dirname, 'src/helper/'),
+      public: path.resolve(__dirname, 'src/public/'),
+    },
     extensions: ['*', '.js', '.jsx'],
   },
   devServer: {
