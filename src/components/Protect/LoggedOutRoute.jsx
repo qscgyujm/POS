@@ -4,6 +4,8 @@ import React from 'react';
 import { Route, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import Nav from '../Nav';
+
 const ProtectRoute = ({
   component: BaseComponent,
   ...rest
@@ -11,14 +13,15 @@ const ProtectRoute = ({
   const history = useHistory();
   const { isAuth } = rest;
 
-  if (!isAuth) {
-    history.push('/');
+  if (isAuth) {
+    history.push('/product');
   }
 
   return (
     <Route
       render={(rest) => (
         <>
+          <Nav />
           <BaseComponent
             {...rest}
           />
@@ -27,29 +30,6 @@ const ProtectRoute = ({
     />
   );
 };
-
-// function ProtectRoute({
-//   BaseComponent,
-//   ...rest
-// }) {
-//   const history = useHistory();
-//   const { isAuth } = rest;
-
-//   if(!isAuth) {
-//     history.push('/login');
-//   }
-
-//   return(
-//     <Route
-//       render={rest => (
-//         <BaseComponent
-//           {...rest}
-//         />
-//       )}
-//     />
-//   )
-// }
-
 
 const mapStateToProps = (state) => state.auth;
 

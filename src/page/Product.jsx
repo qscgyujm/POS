@@ -3,21 +3,17 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { action as productAction } from '../redux/product';
-
-import compose from '../helper/compose';
+import { action as orderAction } from '../redux/order';
 
 import ProductComponent from '../components/Product';
 
-const Product = (props) => {
-  console.log(props);
+function Product(props) {
   return (
-    <div>
-      <ProductComponent
-        {...props}
-      />
-    </div>
+    <ProductComponent
+      {...props}
+    />
   );
-};
+}
 
 const mapStateToProps = (state) => state.product;
 
@@ -25,31 +21,16 @@ const mapDispatchToProps = (dispatch) => {
   const {
     fetchProduct,
   } = productAction;
+  const {
+    createOrder,
+  } = orderAction;
 
   return {
     ...bindActionCreators({
       fetchProduct,
+      createOrder,
     }, dispatch),
   };
 };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  (BaseComponent) => (props) => {
-    const { fetchProduct } = props;
-
-    React.useEffect(
-      () => {
-        fetchProduct();
-      },
-      [],
-    );
-
-
-    return (
-      <BaseComponent
-        {...props}
-      />
-    );
-  },
-)(Product);
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

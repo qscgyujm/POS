@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { compose } from 'recompose';
+import compose from 'helper/compose';
 import { useHistory } from 'react-router-dom';
 
 import { media } from '../../../helper/media';

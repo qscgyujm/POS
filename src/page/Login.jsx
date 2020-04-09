@@ -2,19 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import compose from 'helper/compose';
 import { action as authAction } from '../redux/auth';
 
 import LoginComponent from '../components/Login';
 
-const Login = (props) => {
-  console.log('', props);
+function Login(props) {
   return (
     <LoginComponent
       {...props}
     />
   );
-};
+}
 
 const mapStateToProps = (state) => state.auth;
 
@@ -32,7 +30,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

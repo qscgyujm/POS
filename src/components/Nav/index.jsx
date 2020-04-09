@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import compose from 'helper/compose';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-// import { action as authAction } from '../../redux/auth';
+import { action as authAction } from '../../redux/auth';
 
-import iconSrc from 'public/logo192.png';
-
-import compose from '../../helper/compose';
 import withWrapper from '../../hoc/withWrapper';
 
 import { media } from '../../helper/media';
+
+import iconSrc from '../../img/logo192.png';
 
 import LoggedInNav from './view/LoggedInNav';
 
@@ -73,64 +73,62 @@ const Nav = () => (
           src={iconSrc}
         />
       </Link>
-      {/* <SignupWrapper>
+      <SignupWrapper>
         <Link to="/register">
           <RegisterTag>
             Sign up
           </RegisterTag>
         </Link>
-      </SignupWrapper> */}
+      </SignupWrapper>
     </LinkWrapper>
   </NavWrapper>
 );
 
-// const mapStateToProps = (state) => state.auth;
+const mapStateToProps = (state) => state.auth;
 
-// const mapDispatchToProps = (dispatch) => {
-//   // const {
-//   //   logoutAuth,
-//   //   checkAuth,
-//   // } = authAction;
+const mapDispatchToProps = (dispatch) => {
+  const {
+    logoutAuth,
+    checkAuth,
+  } = authAction;
 
-//   return {
-//     ...bindActionCreators({
-//       logoutAuth,
-//       checkAuth,
-//     }, dispatch),
-//   };
-// };
+  return {
+    ...bindActionCreators({
+      logoutAuth,
+      checkAuth,
+    }, dispatch),
+  };
+};
 
 export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
   withWrapper(NavContainer),
-  // (BaseComponent) => (props) => {
-  //   const {
-  //     // isAuth,
-  //     // logoutAuth
-  //   } = props;
+  (BaseComponent) => (props) => {
+    const { isAuth, logoutAuth } = props;
 
-  //   // React.useEffect(
-  //   //   () => {
-  //   //     console.log('Nav')
-  //   //     checkAuth();
-  //   //   },
-  //   //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   //   [],
-  //   // )
+    // React.useEffect(
+    //   () => {
+    //     console.log('Nav')
+    //     checkAuth();
+    //   },
+    //   // eslint-disable-next-line react-hooks/exhaustive-deps
+    //   [],
+    // )
 
-  //   // if (isAuth) {
-  //   //   return (
-  //   //     <LoggedInNav
-  //   //       {...props}
-  //   //       linkList={loggedInLink}
-  //   //       // logoutAuth={logoutAuth}
-  //   //     />
-  //   //   );
-  //   // }
+    if (isAuth) {
+      return (
+        <LoggedInNav
+          {...props}
+          linkList={loggedInLink}
+          logoutAuth={logoutAuth}
+        />
+      );
+    }
 
-  //   return (
-  //     <BaseComponent
-  //       {...props}
-  //     />
-  //   );
-  // },
+    return (
+      <BaseComponent
+        {...props}
+      />
+    );
+  },
 )(Nav);

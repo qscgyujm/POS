@@ -79,18 +79,18 @@ function* checkAuthSaga() {
 
 function* loginAuthSaga(payload) {
   try {
+    console.log(payload);
+
     const response = yield call(API.postLogin, payload);
     const { headers, data } = response;
     const { token } = headers;
 
-    // if (!token) {
-    //   throw new Error('no token');
-    // } else {
-    //   localStorage.setItem('token', token);
-    //   yield put(action.loginAuthSuccess(data));
-    // }
-
-    yield put(action.loginAuthSuccess(data));
+    if (!token) {
+      throw new Error('no token');
+    } else {
+      localStorage.setItem('token', token);
+      yield put(action.loginAuthSuccess(data));
+    }
   } catch (error) {
     localStorage.removeItem('token');
 
@@ -110,11 +110,13 @@ function* logoutAuthSaga() {
 
 function* sendCodeSaga({ payload }) {
   try {
+    console.log('sendCodeSaga', payload);
     const { email, resolve } = payload;
 
     yield call(API.sendCode, email);
 
     if (resolve) {
+      console.log('resolve');
       resolve();
     }
 

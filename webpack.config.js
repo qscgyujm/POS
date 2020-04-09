@@ -53,13 +53,8 @@ module.exports = {
     host: '0.0.0.0', // 預設是 localhost，設定則可讓外網存取
     open: true, // 打開瀏覽器
     inline: true,
+    historyApiFallback: true, // https://webpack.js.org/configuration/dev-server/#devserverhistoryapifallback
     // useLocalIp: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-      },
-    },
     // proxy: {
     //   'http://localhost:1337': 'http://localhost:3000',
     // },

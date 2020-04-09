@@ -2,13 +2,12 @@
 
 import React from 'react';
 import styled from 'styled-components';
-// import { compose } from 'recompose';
+import compose from 'helper/compose';
 import { isEmpty } from 'lodash';
 
 import withWrapper from '../../../hoc/withWrapper';
 
 import { media } from '../../../helper/media';
-import compose from '../../../helper/compose';
 
 import ProductImage from './ProductImg';
 import ControlPanel from './ControlPanel';
@@ -37,7 +36,7 @@ const ProductName = styled.p`
   background-color: #f9f9f9;
 `;
 
-const ProductItem = (props) => {
+const SellProduct = (props) => {
   const {
     product,
     localOrder,
@@ -156,4 +155,4 @@ export default compose(
       />
     );
   },
-)(ProductItem);
+)(SellProduct);

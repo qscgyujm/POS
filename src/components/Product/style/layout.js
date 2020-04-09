@@ -9,4 +9,4 @@ export const SectionWrapper = styled.div`
   :not(:last-of-type) {
     margin-bottom: 10px;
   }
-`;
+`

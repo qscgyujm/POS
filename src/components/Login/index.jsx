@@ -1,8 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { every } from 'lodash';
-
 import compose from 'helper/compose';
+import { every } from 'lodash';
 
 import withWrapper from '../../hoc/withWrapper';
 
@@ -60,7 +59,7 @@ const LoginButton = styled(Button)`
 const LoginForm = styled.form`
 `;
 
-const Login = (props) => {
+const Home = (props) => {
   const {
     localState,
     changeEmailHandler,
@@ -170,4 +169,4 @@ export default compose(
       />
     );
   },
-)(Login);
+)(Home);
