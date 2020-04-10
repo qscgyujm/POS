@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { isEmpty } from 'lodash';
 
 import compose from 'helper/compose';
+import convertDateTime from 'helper/dateTime';
 
 import withWrapper from '../../hoc/withWrapper';
 
@@ -39,6 +40,11 @@ const ButtonWrapper = styled.div`
   margin-top: 15px;
 `;
 
+const UpdatingWrapper = styled.div`
+  text-align: right;
+  font-size: 12px;
+`;
+
 const index = (props) => {
   const {
     profile,
@@ -72,6 +78,13 @@ const index = (props) => {
         isEdit={isEdit}
         isInEdit
       />
+      <UpdatingWrapper>
+        Updating time:
+        {' '}
+        {
+          convertDateTime(profile.updatedAt)
+        }
+      </UpdatingWrapper>
       {
         isEdit
           ? (
@@ -104,7 +117,6 @@ export default compose(
       () => {
         fetchProfile();
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [],
     );
 

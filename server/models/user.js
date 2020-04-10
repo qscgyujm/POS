@@ -106,6 +106,7 @@ class User {
       console.log(updatedRes);
       return updatedRes[1];
     } catch (error) {
+      console.log(error);
       return error;
     }
   }

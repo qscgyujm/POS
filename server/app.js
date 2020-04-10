@@ -19,11 +19,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
 });
 
-const port = process.env.PORT || 3000;
+export default app;
 
-app.listen(port, () => {
-  console.log(`App listening on port: ${port}`);
-  console.log(process.env.NODE_ENV);
-});
-
-module.exports = app;
+// module.exports = app;

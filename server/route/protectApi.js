@@ -5,6 +5,7 @@ import generalRoute from './general';
 import * as productController from '../controllers/product';
 import * as userProductController from '../controllers/user-product';
 import * as orderController from '../controllers/order';
+import * as userController from '../controllers/users';
 
 import AuthMiddler from '../middleware/auth';
 
@@ -25,6 +26,12 @@ router.delete('/product/:id', productController.deleteProduct);
 router.get('/user/product', userProductController.getUserProductInfo);
 router.post('/user/product', userProductController.addUserProductMiddleware, userProductController.getUserProductInfo);
 router.delete('/user/product/:id', userProductController.deleteProductMiddleware, userProductController.getUserProductInfo);
+
+// User
+router.get('/user', userController.findUser);
+router.get('/user/:id', userController.findUserById);
+router.put('/user/profile', userController.updateUser);
+router.post('/user/password', userController.changePassword);
 
 // Order
 router.get('/order', orderController.fetchOrderByUserId);

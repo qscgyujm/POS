@@ -43,6 +43,8 @@ function* fetchProfileSaga() {
     const { data } = yield call(API.getProfile, token);
     const { profile } = data;
 
+    console.log('fetchProfile', profile);
+
     yield put(action.fetchProfileSuccess(profile));
   } catch (error) {
     yield put(action.fetchProfileFailure());

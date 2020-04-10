@@ -1,6 +1,6 @@
 import { pick, isNil } from 'lodash';
 
-import * as productModel from '../models/product';
+import productModel from '../models/product';
 import orderModel from '../models/order';
 import userProductModel from '../models/user-product';
 
@@ -40,9 +40,9 @@ export async function findProductById(req, res) {
   const productId = pick(req.params, 'id').id;
 
   try {
-    const product = await productModel.findById(productId);
+    const products = await productModel.findByIds(productId);
 
-    return res.status(200).json(product);
+    return res.status(200).json(products[0]);
   } catch (error) {
     return res.sendStatus(401);
   }

@@ -15,5 +15,8 @@
 - Redux * Saga
 - eslint coding style
 
+## Test
+- using jest be API testing
+
 ## Target
 - 將原有的POS重新Refactor

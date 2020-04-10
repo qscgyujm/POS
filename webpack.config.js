@@ -45,7 +45,6 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, 'dist'), // 網站內容從哪來，預設會使用 '/'
-    // publicPath: '/assets/',    // 打包好的檔案將在這個路由下取用
     compress: false, // 使用 gzip 壓縮
     port: 8080,
     index: 'index.html',
@@ -54,9 +53,5 @@ module.exports = {
     open: true, // 打開瀏覽器
     inline: true,
     historyApiFallback: true, // https://webpack.js.org/configuration/dev-server/#devserverhistoryapifallback
-    // useLocalIp: true,
-    // proxy: {
-    //   'http://localhost:1337': 'http://localhost:3000',
-    // },
   },
 };

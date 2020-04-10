@@ -65,11 +65,6 @@ const loggedIn = (props) => {
             </Link>
           )
         }
-        <Link to="chat">
-          <LinkTag>
-            Chat
-          </LinkTag>
-        </Link>
         <LogoutWrapper>
           <LogoutTag
             onClick={clickLogoutHandler}

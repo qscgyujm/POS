@@ -1,12 +1,14 @@
 import bcrypt from 'bcryptjs';
 import { pick, isEqual } from 'lodash';
 
-import * as userModel from '../models/user';
+import userModel from '../models/user';
+
+import { getTime } from '../helper/time';
 
 export async function findUserById(req, res) {
   const userId = pick(req.params, ['id']).id;
 
-  const user = pick(await userModel.findUser(userId), ['email', 'name', 'location']);
+  const user = pick(await userModel.findById(userId), ['email', 'name', 'location']);
   res.json(
     user,
   );
@@ -16,8 +18,8 @@ export async function findUser(req, res) {
   const { userId } = req;
 
   try {
-    const user = await userModel.findUser(userId);
-    const userInfo = pick(user, ['email', 'name', 'location']);
+    const user = await userModel.findById(userId);
+    const userInfo = pick(user, ['email', 'name', 'location', 'updatedAt']);
 
     res
       .status(200)
@@ -33,23 +35,25 @@ export async function updateUser(req, res) {
   const { userId } = req;
 
   try {
-    const user = await userModel.findUser(userId);
+    const user = await userModel.findById(userId);
     const inputSetting = pick(req.body, ['name', 'location']);
 
     const replacements = {
       ...pick(user, ['name', 'location']),
       ...inputSetting,
+      id: userId,
+      updatedAt: getTime(),
     };
 
-    const updatedCount = await userModel.updateUser(userId, replacements);
+    const updatedCount = await userModel.updateUser(replacements);
 
     if (updatedCount !== 1) {
       return res.sendStatus(404);
     }
 
     const newProfile = pick(
-      await userModel.findUser(userId),
-      ['email', 'name', 'location'],
+      await userModel.findById(userId),
+      ['email', 'name', 'location', 'updatedAt'],
     );
 
     res

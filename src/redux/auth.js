@@ -79,8 +79,6 @@ function* checkAuthSaga() {
 
 function* loginAuthSaga(payload) {
   try {
-    console.log(payload);
-
     const response = yield call(API.postLogin, payload);
     const { headers, data } = response;
     const { token } = headers;
