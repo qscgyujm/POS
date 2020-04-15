@@ -18,5 +18,7 @@
 ## Test
 - using jest be API testing
 
+## Https
+
 ## Target
 - 將原有的POS重新Refactor
