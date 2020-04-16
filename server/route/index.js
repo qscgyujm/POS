@@ -17,7 +17,6 @@ const corsOptions = {
   exposedHeaders: ['Content-Type', 'Authorization', 'token'],
 };
 
-/* GET home page. */
 router.get('/dev', (req, res) => {
   res.send('POS API');
 });

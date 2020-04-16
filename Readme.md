@@ -1,24 +1,68 @@
-# express * react * boilerplate
+# POS
 
-- 自製boilerplate
-- express * react 的 boilerplate
-- [Boilerplate Link](https://github.com/qscgyujm/express-react-boilerplate)
+## Table of Contents
+* [Frontend Technique](#Frontend-Technique)
+    * [React](#React)
+    * [CSS](#CSS)
+    * [Redux](#Redux)
+    * [Bundle Tool](#Bundle-Tool)
+* [Backend Technique](#backend-Technique)
+    * [Infrastructure](#infrastructure)
+    * [Environment](#environment)
+    * [Database](#database)
+    * [Cloud Service (AWS)](#cloud-service-(AWS))
+    * [Networking](#networking)
+    * [Test](#test)
+    * [Third Party](#third-party)
+    * [Version Control](#version-control)
+    * [Key Points](#key-points)
+* [Architecture](#architecture)
+* [Main Features](#Main-Features)
+* [Contact](#contact)
 
-## Express
-- express 包含 babel
-- eslint coding style
-- Sequelize * MariaDB
+## Frontend Technique
 
-## React
-- 使用 webpack build
-- 使用 webpack-dev-server 開發
-- Redux * Saga
-- eslint coding style
+#### React
+  * React
+  * React-hook
+#### CSS
+  * styled-component
+#### Redux
+  * Redux-saga
+#### Bundle Tool
+  * Webpack
 
-## Test
-- using jest be API testing
+## Backend Technique
 
-## Https
+#### Infrastructure
+* Docker
 
-## Target
-- 將原有的POS重新Refactor
+#### Environment
+* Node.js/Express.js
+
+#### Database
+* MariaDB
+
+#### Cloud Service (AWS)
+* EC2
+* S3
+
+#### Networking
+* HTTP & HTTPS
+* Domain Name System (DNS)
+* NGINX
+* SSL (Let's Encrypt)
+
+#### Version Control
+* Git/GitHub
+
+#### Key Points
+* React
+* Express
+
+## Architecture
+* #### Server Architecture
+
+## Main Features
+
+## Contact
