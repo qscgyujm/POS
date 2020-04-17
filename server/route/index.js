@@ -17,11 +17,11 @@ const corsOptions = {
   exposedHeaders: ['Content-Type', 'Authorization', 'token'],
 };
 
-router.get('/dev', (req, res) => {
+router.use('/test', testRouter);
+
+router.get('/api/dev', (req, res) => {
   res.send('POS API');
 });
-
-router.use('/test', testRouter);
 
 // Auth
 router.post('/api/auth/login', cors(corsOptions), multer().array(), authController.login);
