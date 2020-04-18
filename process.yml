@@ -1,0 +1,4 @@
+apps:
+  - name: pos-demo
+    script: ./build/index.js
+    watch: true
