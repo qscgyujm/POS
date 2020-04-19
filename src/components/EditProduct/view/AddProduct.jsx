@@ -76,7 +76,6 @@ const InfoWrapper = styled.div`
 
 const CreatePanel = (props) => {
   const { deletedProducts, localState, clickAddButtonHandler } = props;
-  console.log(props);
 
   return (
     <>

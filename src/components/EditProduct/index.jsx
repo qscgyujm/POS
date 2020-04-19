@@ -27,6 +27,7 @@ const SettingProduct = (props) => {
             key={i.toString()}
             {...props}
             product={product}
+            inEdit
           />
         ))
       }

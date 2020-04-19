@@ -4,6 +4,8 @@ import productModel from '../models/product';
 import orderModel from '../models/order';
 import userProductModel from '../models/user-product';
 
+import { getTime } from '../helper/time';
+
 export async function createProduct(req, res) {
   const placement = {
     ...pick(req.body, ['name', 'price']),
@@ -53,18 +55,20 @@ export async function updateProduct(req, res) {
   const newProduct = pick(req.body, ['name', 'description', 'price', 'imageUrl']);
 
   try {
-    const oldProduct = await productModel.findById(productId);
+    const oldProduct = await productModel.findByIds(productId);
 
     if (isNil(oldProduct)) {
       return res.sendStatus(404);
     }
 
     const replacements = {
-      ...oldProduct,
+      ...oldProduct[0],
       ...newProduct,
+      id: productId,
+      updatedAt: getTime(),
     };
 
-    const updatedProductCount = await productModel.updateById(productId, replacements);
+    const updatedProductCount = await productModel.update(replacements);
 
     if (updatedProductCount === 0) {
       return res.sendStatus(404);
@@ -91,11 +95,12 @@ export async function deleteProduct(req, res) {
       userId,
       productId,
     };
+
     if (!await userProductModel.delete(replacements)) {
       return res.sendStatus(401);
     }
 
-    if (!await productModel.deleteById(productId)) {
+    if (!await productModel.delete(productId)) {
       return res.sendStatus(404);
     }
 

@@ -1,5 +1,16 @@
 # POS
 
+pos system prototype
+
+## test account & password
+- admin
+  * account: froggy@gmail.com
+  * password: 123456
+
+- normal
+  * account: test@gmail.com
+  * password: 123456
+
 ## Table of Contents
 * [Frontend Technique](#Frontend-Technique)
     * [React](#React)

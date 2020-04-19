@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import compose from 'helper/compose';
 import { isEmpty } from 'lodash';
 import { useHistory } from 'react-router-dom';
+
+import compose from 'helper/compose';
 
 import withWrapper from '../../hoc/withWrapper';
 
@@ -21,7 +22,7 @@ const ProductWrapper = styled.div`
 `;
 
 const index = (props) => {
-  console.log('create', props);
+  console.log('Setting Product', props);
   const { productList } = props;
 
   return (
@@ -56,7 +57,6 @@ export default compose(
       () => {
         fetchProduct();
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [],
     );
 

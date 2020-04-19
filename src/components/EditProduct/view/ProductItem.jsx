@@ -21,16 +21,27 @@ const ProductWrapper = styled.div`
   min-height: 450px;
 `;
 
-const Product = (props) => {
+const ProductItem = (props) => {
   const { product } = props;
+
+  const [localState, setLocalState] = React.useState(product);
+
+  React.useEffect(
+    () => {
+      setLocalState(product);
+    },
+    [product],
+  );
 
   return (
     <>
       <ProductImage
-        imageUrl={product.imageUrl}
+        imageUrl={localState.imageUrl}
       />
       <SettingPanel
         {...props}
+        localState={localState}
+        setLocalState={setLocalState}
       />
     </>
   );
@@ -40,4 +51,4 @@ export default compose(
   withWrapper(ProductContainer),
   withWrapper(ProductWrapper),
   withDeleteProduct,
-)(Product);
+)(ProductItem);

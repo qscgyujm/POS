@@ -146,9 +146,9 @@ export default compose(
 
       const { loginAuth } = props;
 
-      // if (!every(localState)) {
-      //   return;
-      // }
+      if (!every(localState)) {
+        return;
+      }
 
       const formData = new FormData();
       formData.append('email', localState.email);

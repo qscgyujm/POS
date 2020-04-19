@@ -9,35 +9,35 @@ export const login = async (req, res) => {
   const { email, password } = replacement;
 
   try {
-    // const user = await userModel.findByEmail(email);
+    const user = await userModel.findByEmail(email);
 
-    // if (!user) {
-    //   return res.sendStatus(404);
-    // }
+    if (!user) {
+      return res.sendStatus(404);
+    }
 
-    // const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
-    // if (!isMatch) {
-    //   return res.sendStatus(404);
-    // }
+    if (!isMatch) {
+      return res.sendStatus(404);
+    }
 
     const token = await jwt.sign({
-      // userId: user.id,
-      // email: user.email,
-      userId: 7,
-      email: 'froggy@gmail.com',
+      userId: user.id,
+      email: user.email,
+      // userId: 7,
+      // email: 'froggy@gmail.com',
     },
     process.env.APP_KEY,
     {
       expiresIn: '7d',
     });
 
-    // const { id } = user;
+    const { id } = user;
 
     return res.status(200)
       .set('token', token)
-      .send(true);
-    // .send(id === 7);
+      .send(id === 7);
+    // .send(true);
   } catch (error) {
     return res.sendStatus(401);
   }

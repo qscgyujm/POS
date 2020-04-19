@@ -35,8 +35,8 @@ const EditButton = styled(Button)`
 `;
 
 const ProductPanel = (props) => {
-  const { product, clickEditButtonHandler } = props;
-  const { name, description, price } = product;
+  const { localState, clickEditButtonHandler, inEdit } = props;
+  const { name, description, price } = localState;
 
   return (
     <SettingWrapper>
@@ -52,27 +52,31 @@ const ProductPanel = (props) => {
         <ProductInfoTitle>價格:</ProductInfoTitle>
         <ProductInfo>{price}</ProductInfo>
       </SectionWrapper>
-      <SectionWrapper
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <EditButton
-          onClick={clickEditButtonHandler}
+      {
+        !inEdit
+        && (
+        <SectionWrapper
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
         >
-          編輯
-        </EditButton>
-      </SectionWrapper>
+          <EditButton
+            onClick={clickEditButtonHandler}
+          >
+            編輯
+          </EditButton>
+        </SectionWrapper>
+        )
+      }
     </SettingWrapper>
   );
 };
 
 export default compose(
   (BaseComponent) => (props) => {
-    const { product } = props;
+    const { localState, setLocalState, uploadImg } = props;
 
-    const [localState, setLocalState] = React.useState(product);
     const [isEdit, setIsEdit] = React.useState(false);
 
     const clickCancelButtonHandler = () => {
@@ -111,6 +115,7 @@ export default compose(
           <EditPanel
             localState={localState}
             setLocalState={setLocalState}
+            uploadImg={uploadImg}
           />
           <ButtonWrapper>
             <EditButton onClick={clickCancelButtonHandler}>取消</EditButton>
@@ -123,6 +128,7 @@ export default compose(
     return (
       <BaseComponent
         {...props}
+        localState={localState}
         clickEditButtonHandler={clickEditButtonHandler}
       />
     );

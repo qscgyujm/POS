@@ -7,6 +7,7 @@ const Input = styled.input`
 `;
 
 const index = (props) => {
+  console.log(props);
   const {
     localState,
     setLocalState,
