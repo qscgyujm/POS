@@ -1,12 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import compose from 'helper/compose';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { useHistory } from 'react-router-dom';
 import { every, pick } from 'lodash';
-
-import { action as authAction } from '../../redux/auth';
 
 import withWrapper from '../../hoc/withWrapper';
 
@@ -86,25 +82,7 @@ const index = (props) => {
   );
 };
 
-const mapStateToProps = (state) => state.auth;
-
-const mapDispatchToProps = (dispatch) => {
-  const {
-    sendCode,
-    checkCode,
-  } = authAction;
-
-  return {
-    ...bindActionCreators({
-      sendCode,
-      checkCode,
-    }, dispatch),
-  };
-};
-
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
   withWrapper(LogoutContainer),
   withWrapper(RegisterWrapper),
   (BaseComponent) => (props) => {

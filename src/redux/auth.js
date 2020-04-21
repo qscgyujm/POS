@@ -90,7 +90,9 @@ function* loginAuthSaga(payload) {
       yield put(action.loginAuthSuccess(data));
     }
   } catch (error) {
+    console.log('error', error);
     localStorage.removeItem('token');
+    reject('run');
 
     yield put(action.loginAuthFailure());
   }
@@ -179,7 +181,9 @@ export const reducer = (state = initialState, action) => {
     case ActionType.LOGIN_AUTH_FAILURE:
       return {
         ...state,
-        isError: true,
+        isFetch: false,
+        isAuth: null,
+        isAdmin: null,
       };
     case ActionType.LOGIN_AUTH_SUCCESS:
       return {

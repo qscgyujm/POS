@@ -62,7 +62,6 @@ export default compose(
         checkAuth();
       }
     },
-    // eslint-disable-next-line
     []);
 
     if (isFetch) {

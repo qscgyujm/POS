@@ -39,6 +39,7 @@ export const login = async (req, res) => {
       .send(id === 7);
     // .send(true);
   } catch (error) {
+    console.log(error);
     return res.sendStatus(401);
   }
 };

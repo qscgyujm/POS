@@ -1,8 +1,10 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import compose from 'helper/compose';
 import { every } from 'lodash';
+import { useHistory } from 'react-router-dom';
 
+
+import compose from 'helper/compose';
 import withWrapper from '../../hoc/withWrapper';
 
 import { LogoutContainer } from '../../styles/layout';
@@ -115,6 +117,8 @@ export default compose(
   withWrapper(LogoutContainer),
   withWrapper(LoginWrapper),
   (BaseComponent) => (props) => {
+    const history = useHistory();
+
     const [localState, setLocalState] = React.useState({
       email: '',
       password: '',
