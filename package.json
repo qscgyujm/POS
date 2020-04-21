@@ -9,6 +9,7 @@
     "dev:r": "webpack-dev-server",
     "dev:s": "nodemon --exec babel-node ./server/index.js  --watch server/",
     "build:dev": "webpack --mode development",
+    "build:dev:server": "rm -rf ./build && webpack --mode development && babel ./server -d ./build && mkdir ./build/public && nodemon ./build/index.js",
     "build:server": "rm -rf ./build && babel ./server -d ./build",
     "build:react": "webpack --mode production",
     "test:s": "jest --setupFiles dotenv/config --watch"

@@ -6,8 +6,6 @@ const htmlPlugin = new HtmlWebPackPlugin({
   filename: './index.html',
 });
 
-console.log(path.resolve(__dirname, 'src/hoc/'));
-
 module.exports = {
   entry: './src/index.js', // 進入點
   output: { // 輸出位置
