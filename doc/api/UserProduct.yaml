@@ -1,0 +1,111 @@
+tags:
+  - name: UserProduct
+    description: 使用者的產品資訊
+
+paths:
+  /api/user/product:
+    get:
+      tags:
+        - UserProduct
+      security:
+        - Authentication: []
+      responses:
+        '200':
+          description: '取得使用者底下產品資料'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+                  deletedProducts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+    post:
+      tags:
+        - UserProduct
+      # summary: '取得使用者底下產品資料'
+      security:
+        - Authentication: []
+      responses:
+        '200':
+          description: '新增使用者底下產品資料'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+                  deletedProducts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+
+  /api/user/product/:id:
+    delete:
+      tags:
+        - UserProduct
+      # summary: 取得基礎財務資訊
+      security:
+        - Authentication: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+
+      responses:
+        '200':
+          description: 刪除使用者擁有產品
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+                  deletedProducts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+
+
+components:
+  schemas:
+    ProductInfo:
+      type: object
+      properties:
+        p_id:
+          type: number
+          format: float
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+          format: float
+        imageUrl:
+          type: string
+        createdAt:
+          type:  string
+          format: date-time
+        updatedAt:
+          type:  string
+          format: date-time
+  
+  securitySchemes:
+    Authentication:
+      type: apiKey
+      name: Authentication
+      in: header

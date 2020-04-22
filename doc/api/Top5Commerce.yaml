@@ -1,0 +1,186 @@
+paths:
+  /e-commerce/sales_performance/:target:
+    post:
+      tags:
+        - Top5
+      summary: 熱門銷售排行
+      parameters:
+        - in: path
+          name: target
+          required: true
+          schema:
+            $ref: '#/components/schemas/Target'
+      requestBody:
+        description: Body內容
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Boby'
+            
+      responses:
+        '200':
+          description: 取得選項value
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Boby'
+                  - type: object
+                    properties:
+                      Results:
+                        type: object
+                    
+                  
+
+  /e-commerce/product_info/:target:
+    post:
+      tags:
+        - Top5
+      summary: ''
+      parameters:
+        - in: path
+          name: target
+          required: true
+          schema:
+            $ref: '#/components/schemas/Target'
+      requestBody:
+        description: Body內容
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Boby'
+
+      responses:
+        '200':
+          description: '取得 Brand, Feature, Sport summary'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformCount'
+                    
+  /e-commerce/product_table/:target:
+    post:
+      tags:
+        - Top5
+      summary: ''
+      parameters:
+        - in: path
+          name: target
+          required: true
+          schema:
+            $ref: '#/components/schemas/Target'
+                
+      requestBody:
+        description: Body內容
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/Boby'
+                - type: object
+                  properties:
+                    CriterionValue:
+                      type: string
+                    point:
+                      type: string
+                      enum: ["2019-05-19", "2019-06", "2019-Q2", "2019"]
+
+      responses:
+        '200':
+          description: '取得 Brand, Feature, Sport summary'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TableResult'
+                    
+
+components:
+  schemas:
+    Platform:
+      type: array
+      items:
+        type: string
+      example: ["amazon-US", "amazon-UK", "rei", "dicks", "decathlon"]
+  
+    Target:
+      type: string
+      enum: [BESTSELLING, RATING]
+    Boby:
+      type: object
+      properties:
+        Criterion:
+          type: string
+        Platform:
+           $ref: '#/components/schemas/Platform'
+        bgnTime:
+          $ref: '#/components/schemas/Time'
+        endTime:
+          $ref: '#/components/schemas/Time'
+          
+    Time:
+      type: object
+      properties:
+        year:
+          type: string
+          format: int32
+          example: 2019
+        month:
+          type: string
+          format: int32
+          example: 6
+              
+    PlatformCount:
+      type: object
+      properties:
+        週:
+          $ref: '#/components/schemas/Count'
+        月:
+          $ref: '#/components/schemas/Count'
+        季:
+          $ref: '#/components/schemas/Count'
+        年:
+          $ref: '#/components/schemas/Count'
+        
+    Count:
+      type: object
+      properties:
+        count:
+          type: array
+          items:
+            type: integer
+            format: int32
+            
+    TableResult:
+      type: object
+      properties:
+        Name:
+          type: string
+        Brand:
+          type: string
+        Url:
+          type: string
+        Feature:
+          type: array
+          items:
+            type: string
+        Clothing:
+          type: array
+          items:
+            type: string
+        Material:
+          type: array
+          items:
+            type: string
+        Sport:
+          type: array
+          items:
+            type: string
+        ImageUrl:
+          type: string
+        count:
+          type: integer
+          format: int32
+          
+          

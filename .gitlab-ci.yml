@@ -1,0 +1,16 @@
+image: node:10.20.1
+
+stages:
+  - install
+  - test
+  # - deploy
+
+install_dependency:
+  stage: install
+  script:
+    - yarn
+
+unit_test:
+  stage: test
+  script:
+    - yarn test

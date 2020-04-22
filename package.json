@@ -12,7 +12,8 @@
     "build:dev:server": "rm -rf ./build && webpack --mode development && babel ./server -d ./build && mkdir ./build/public && nodemon ./build/index.js",
     "build:server": "rm -rf ./build && babel ./server -d ./build",
     "build:react": "webpack --mode production",
-    "test:s": "jest --setupFiles dotenv/config --watch"
+    "test": "jest --setupFiles dotenv/config --watch",
+    "api": "nodemon --exec babel-node doc/index.js --watch doc/ -e yaml"
   },
   "dependencies": {
     "@babel/cli": "^7.8.4",
@@ -48,6 +49,9 @@
     "sequelize": "^5.21.6",
     "styled-components": "^5.0.1",
     "supertest": "^4.0.2",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
+    "unique-string": "^2.0.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"

@@ -1,0 +1,191 @@
+tags:
+  - name: Custom
+    description: 供需體系
+
+paths:
+  /api/customs/weightandpieces:
+    post:
+      tags:
+        - Custom
+      summary: ''
+      requestBody:
+        description: Body內容
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomeBody'
+      responses:
+        '200':
+          description: '提單重量與筆數'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    date:
+                      type: string
+                    totalWeight_kg:
+                      type: number
+                      format: float
+                    pieces:
+                      type: integer
+                      format: int32
+          
+  /api/customs/fieldspercent:
+    post:
+      tags:
+        - Custom
+      summary: ''
+      requestBody:
+        description: Body內容
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/CustomeBody'
+                - type: object
+                  properties:
+                    Field:
+                      type: string
+                    
+                  
+      responses:
+        '200':
+          description: '採購來源港 採購來源國 採購抵達地 供應商的百分比'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    time:
+                      type: string
+                    percentArray:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          field:
+                            type: string
+                          percent:
+                            type: number
+                            format: float
+                            
+  /api/customs/detailinfo:
+    post:
+      tags:
+        - Custom
+      summary: ''
+      requestBody:
+        description: Body內容
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomeBody'
+                    
+      responses:
+        '200':
+          description: '詳細資料'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalCount:
+                    type: integer
+                    format: int32
+                  result:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Importer:
+                          type: string
+                        Description:
+                          type: string
+                        Brand:
+                          type: string
+                        ArriveDate:
+                          type: string
+                        ArrivalDate:
+                          type: string
+                        Date:
+                          type: string
+                        Pieces:
+                          type: integer
+                          format: int32
+                        Piece:
+                          type: integer
+                          format: int32
+                        Quantity:
+                          type: integer
+                          format: int32
+                        Weight_kg:
+                          type: integer
+                          format: int32
+                        Weight:
+                          type: integer
+                          format: int32
+                        DestPort:
+                          type: string
+                        Destination Port:
+                          type: string
+                        DataSet:
+                          type: string
+                        DestCountry:
+                          type: string
+                        Destination Country:
+                          type: string
+                        Exporter:
+                          type: string
+                        OriginPort:
+                          type: string
+                        Origin Port:
+                          type: string
+                        OriginCountry:
+                          type: string
+                        Origin Country:
+                          type: string
+                        Logistics:
+                          type: boolean
+                        OriginContinent:
+                          type: string
+                        DestContinent:
+                          type: string
+                        ExporterAddress:
+                          type: string
+                        HS Code:
+                          type: string
+                        Value:
+                          type: string
+                          nullable: true
+                        Mode of Transportation:
+                          type: string
+                        Others:
+                          type: string
+                          nullable: true
+                        Subsidiary:
+                          type: boolean
+  
+components:
+  schemas:
+    CustomeBody:
+      type: object
+      properties:
+        Brand:
+          type: string
+        Category:
+          type: string
+        Scale:
+          type: string
+          enum:
+          - month
+          - quarter
+          - year
+        bgnTime:
+          type: string
+        endTime:
+          type: string

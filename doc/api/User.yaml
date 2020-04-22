@@ -1,0 +1,98 @@
+tags:
+  - name: User
+    description: 使用者資訊
+
+paths:
+  /api/user:
+    get:
+      tags:
+        - User
+      security:
+        - Authentication: []
+      responses:
+        '200':
+          description: '取得使用者資訊'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+                  deletedProducts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+    post:
+      tags:
+        - User
+      security:
+        - Authentication: []
+      responses:
+        '200':
+          description: '新增使用者底下產品資料'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+                  deletedProducts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+
+  /api/user/product/:id:
+    delete:
+      tags:
+        - User
+      # summary: 取得基礎財務資訊
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: number
+
+      responses:
+        '200':
+          description: 刪除使用者擁有產品
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  productList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+                  deletedProducts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ProductInfo'
+
+components:
+  schemas:
+    UserInfo:
+      type: object
+      properties:
+        email:
+          type: string
+        name:
+          type: string
+        location:
+          type: string
+        updatedAt:
+          type:  string
+          format: date-time
+
+  securitySchemes:
+    Authentication:
+      type: apiKey
+      name: Authentication
+      in: header

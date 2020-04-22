@@ -8,6 +8,8 @@ import apiRouter from './route';
 
 const app = express();
 
+app.disable('x-powered-by'); // express recommend
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -20,5 +22,3 @@ app.get('*', (req, res) => {
 });
 
 export default app;
-
-// module.exports = app;

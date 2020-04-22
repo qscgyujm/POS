@@ -13,7 +13,7 @@ export default async (req, res, next) => {
     if (!isLogin) {
       return res.sendStatus(410);
     }
-    console.log(isLogin);
+    // console.log(isLogin);
 
     req.userId = isLogin.userId;
     next();
