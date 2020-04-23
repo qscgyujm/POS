@@ -1,0 +1,140 @@
+paths:
+  /api/order:
+    get:
+      tags:
+        - Order
+      summary: 取得訂單資訊
+      security:
+        - Authentication: []
+      responses:
+        '200':
+          description: 取得訂單資訊
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderDetailList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderInfo'
+
+    post:
+      tags:
+        - Order
+      security:
+        - Authentication: []
+      summary: 新增訂單
+      requestBody:
+        description: Body內容
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateOrderInfo'
+      responses:
+        '200':
+          description: 新增訂單
+
+  /api/order/:id:
+    put:
+      tags:
+        - Order
+      summary: 修改訂單
+      parameters:
+        - in: path
+          name: id
+          description: 產品id
+          required: true
+          schema:
+            type: number
+      security:
+        - Authentication: []
+      responses:
+        '200':
+          description: 取得修改後訂單資訊
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderDetailList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderInfo'
+    delete:
+      tags:
+        - Order
+      summary: 刪除訂單
+      security:
+        - Authentication: []
+      parameters:
+        - in: path
+          name: id
+          description: 產品id
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: 取得刪除後訂單資訊
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderDetailList:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrderInfo'
+
+
+components:
+  schemas:
+    OrderInfo:
+      type: object
+      properties:
+        order_id:
+          type: integer
+          format: int32
+        totalPrice:
+          type: integer
+          format: int32
+        detailOrder:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              quantity:
+                type: string
+        createdAt:
+          type:  string
+          format: date-time
+
+    CreateOrderInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        count:
+          type: integer
+          format: int32
+
+    DetailInfo:
+      type: object
+      properties:
+        id:
+          type: string
+        quantity:
+          type: string
+
+
+  securitySchemes:
+    Authentication:
+      type: apiKey
+      name: Authentication
+      in: header

@@ -11,7 +11,7 @@ export const getOrderList = ({ token }) => {
 
 export const createOrder = (payload) => {
   console.log(payload);
-  return apiRoot.post('/order/create', payload, {
+  return apiRoot.post('/order', payload, {
     headers: {
       Authorization: payload.token,
     },
@@ -20,7 +20,7 @@ export const createOrder = (payload) => {
 
 export const updateSubmitOrder = ({ payload, token }) => {
   console.log('updateSubmitOrder', payload, token);
-  return apiRoot.put(`/order/submit/${payload}`, null, {
+  return apiRoot.put(`/order/${payload}`, null, {
     headers: {
       Authorization: token,
     },

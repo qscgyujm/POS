@@ -1,0 +1,52 @@
+paths:
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: 登入
+      requestBody:
+        description: Body內容
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: 登入成功
+          headers:
+            token:
+              schema:
+                type: string
+              description: jwt token
+          content:
+            text/plain:
+              schema:
+                type: boolean
+
+  /api/auth/check:
+    get:
+      tags:
+        - Auth
+      summary: 檢查是否帳號為admin
+      security:
+        - Authentication: []
+      responses:
+        '200':
+          content:
+            text/plain:
+              schema:
+                type: boolean
+
+
+components:
+
+  securitySchemes:
+    Authentication:
+      type: apiKey
+      name: Authentication
+      in: header

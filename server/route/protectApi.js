@@ -35,8 +35,8 @@ router.post('/user/password', userController.changePassword);
 
 // Order
 router.get('/order', orderController.fetchOrderByUserId);
-router.post('/order/create', orderController.createOrder);
-router.put('/order/submit/:id', orderController.updateOrderSubmit);
+router.post('/order', orderController.createOrder);
+router.put('/order/:id', orderController.updateOrderSubmit);
 router.delete('/order/:id', orderController.deleteOrder);
 
 
