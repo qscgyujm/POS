@@ -9,10 +9,10 @@ export async function getUserProductInfo(req, res) {
   const { userId } = req;
 
   try {
-    const Ids = await userProductModel.findAllByUserId(userId);
+    const productList = await userProductModel.findAllUserProductById(userId);
 
-    if (isEmpty(Ids)) {
-      return res.status(200).json([]);
+    if (isEmpty(productList)) {
+      return res.sendStatus(401);
     }
 
     const allProductList = await productModel.findAll();
@@ -21,9 +21,8 @@ export async function getUserProductInfo(req, res) {
       return res.sendStatus(401);
     }
 
-    const productList = allProductList.filter((product) => Ids.find((id) => product.p_id === id));
     const deletedProducts = allProductList
-      .filter((product) => !Ids.find((id) => product.p_id === id));
+      .filter((product) => !productList.find((p) => product.p_id === p.id));
 
     return res.status(200).json({
       productList,

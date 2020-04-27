@@ -55,7 +55,7 @@ pos system prototype
 * MariaDB
 
 ##### DB Schema
-<iframe src="https://schema.s3-ap-northeast-1.amazonaws.com/index.html" width="700px" height="500px" frameborder="0" scrolling="no"> </iframe>
+* [Schema](https://schema.s3-ap-northeast-1.amazonaws.com/index.html)
 
 #### Cloud Service (AWS)
 * EC2

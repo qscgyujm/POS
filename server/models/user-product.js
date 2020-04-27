@@ -7,14 +7,21 @@ class UserProducts {
     this.dataPool = dataPool;
   }
 
-  async findAllByUserId(id) {
+  async findAllUserProductById(id) {
     const sql = `
-      SELECT product_id FROM users_product
-      WHERE user_id = :id
+      SELECT 
+        up.product_id, 
+        p.name, p.description, 
+        p.price, p.imageUrl, 
+        p.createdAt, 
+        p.updatedAt
+      FROM users_product as up
+      LEFT JOIN products as p ON up.product_id = p.p_id
+      WHERE up.user_id = :id
     `;
 
     try {
-      const ids = await this.dataPool.query(
+      const res = await this.dataPool.query(
         sql,
         {
           replacements: {
@@ -24,40 +31,9 @@ class UserProducts {
         },
       );
 
-
-      return id !== [] ? ids.map((pId) => pId.product_id) : [];
+      return res;
     } catch (error) {
       return [];
-    }
-  }
-
-  async insert(replacements) {
-    const sql = `
-      INSERT INTO users_product(
-        user_id,
-        product_id,
-        createdAt,
-        updatedAt
-      ) VALUES (
-        :userId,
-        :productId,
-        NOW(),
-        NOW()
-      )
-    `;
-
-    try {
-      const [id, createCount] = await this.dataPool.query(
-        sql,
-        {
-          replacements,
-          type: QueryTypes.INSERT,
-        },
-      );
-
-      return createCount;
-    } catch (error) {
-      return null;
     }
   }
 
@@ -85,40 +61,6 @@ class UserProducts {
       return null;
     }
   }
-
-  async insertBulk(id) {
-    const sql = `
-      INSERT INTO users_product(
-        user_id,
-        product_id,
-        createdAt,
-        updatedAt
-      )
-      SELECT
-        :id,
-        p_id,
-        NOW(),
-        NOW()
-      FROM products
-    `;
-
-    try {
-      const [firstId, createCount] = await this.dataPool.query(
-        sql,
-        {
-          replacements: {
-            id,
-          },
-          type: QueryTypes.INSERT,
-        },
-      );
-
-      return createCount;
-    } catch (error) {
-      return null;
-    }
-  }
-
 
   async delete(replacements) {
     const sql = `
