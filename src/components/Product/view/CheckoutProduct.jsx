@@ -3,8 +3,11 @@ import styled from 'styled-components';
 import compose from 'helper/compose';
 import { useHistory } from 'react-router-dom';
 
+import withModal from '../../../hoc/withModal';
+
 import { media } from '../../../helper/media';
 
+import ModalContent from './ModalContent';
 import { Button } from '../../../styles/unit';
 
 const CheckoutContainer = styled.div`
@@ -70,6 +73,7 @@ const CheckoutPanel = (props) => {
     clickSubmitOrderHandler,
     clickCancelOrderHandler,
     clickOrderButtonHandler,
+    clickModal,
   } = props;
 
   const totalPrice = React.useMemo(() => localOrder.reduce((acc, order) => {
@@ -94,6 +98,11 @@ const CheckoutPanel = (props) => {
         </PriceWrapper>
         <OrderButtonWrapper>
           <ConfirmButton
+            onClick={clickModal}
+          >
+            Modal
+          </ConfirmButton>
+          <ConfirmButton
             disabled={totalPrice === 0}
             onClick={clickSubmitOrderHandler}
           >
@@ -111,9 +120,22 @@ const CheckoutPanel = (props) => {
 };
 
 export default compose(
+  withModal(ModalContent),
   (BaseComponent) => (props) => {
-    const { localOrder, setLocalOrder, createOrder } = props;
+    console.log('check out', props);
+
+    const {
+      localOrder,
+      setLocalOrder,
+      createOrder,
+      toggleModal,
+    } = props;
+
     const history = useHistory();
+
+    const clickModal = () => {
+      toggleModal(true);
+    };
 
     const clickSubmitOrderHandler = () => {
       const resolve = () => {
@@ -137,6 +159,8 @@ export default compose(
         clickSubmitOrderHandler={clickSubmitOrderHandler}
         clickCancelOrderHandler={clickCancelOrderHandler}
         clickOrderButtonHandler={clickOrderButtonHandler}
+        //
+        clickModal={clickModal}
       />
     );
   },
