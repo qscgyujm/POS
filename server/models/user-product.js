@@ -10,7 +10,7 @@ class UserProducts {
   async findAllUserProductById(id) {
     const sql = `
       SELECT 
-        up.product_id, 
+        up.product_id as p_id, 
         p.name, p.description, 
         p.price, p.imageUrl, 
         p.createdAt, 

@@ -11,6 +11,13 @@ import AuthMiddler from '../middleware/auth';
 
 const router = express.Router();
 
+router.use((req, res, next) => {
+  console.log(req.ip);
+  console.log(req.ips);
+
+  next();
+});
+
 router.use(AuthMiddler);
 
 // File

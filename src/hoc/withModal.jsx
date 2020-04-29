@@ -68,20 +68,18 @@ const withModal = (
       this.rootNode = document.getElementById('root');
     }
 
-    componentDidUpdate() {
+    componentWillUnmount() {
       this.bodyNode[0].style = 'overflow: initial';
       this.rootNode.style.filter = 'none';
     }
 
     toggleModal(bool) {
       const { isViewModal } = this.state;
-      const updateVisibility = bool || isViewModal;
+      const updateVisibility = bool || !isViewModal;
 
       this.setState({
         isViewModal: bool,
-        // ...additionalProps,
       });
-
 
       if (updateVisibility) {
         this.bodyNode[0].style = 'overflow: hidden';
@@ -93,8 +91,6 @@ const withModal = (
     }
 
     render() {
-      console.log('withModal', this.state, this.props);
-
       const { isViewModal } = this.state;
 
       const content = (

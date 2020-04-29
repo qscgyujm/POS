@@ -23,6 +23,7 @@
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
     "@sendgrid/mail": "^7.0.0",
+    "@slack/webhook": "^5.0.3",
     "aws-sdk": "^2.656.0",
     "axios": "^0.19.2",
     "babel-loader": "^8.1.0",

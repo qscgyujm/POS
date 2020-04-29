@@ -68,18 +68,16 @@ const ConfirmButton = styled(Button)`
 
 const CheckoutPanel = (props) => {
   const {
-    localOrder,
-    productList,
+    totalPrice,
     clickSubmitOrderHandler,
     clickCancelOrderHandler,
     clickOrderButtonHandler,
-    clickModal,
+    toggleModal,
   } = props;
 
-  const totalPrice = React.useMemo(() => localOrder.reduce((acc, order) => {
-    const { price } = productList.find((product) => product.p_id === order.id);
-    return acc + price * order.count;
-  }, 0), [localOrder, productList]);
+  const clickModal = () => {
+    toggleModal(true);
+  };
 
   return (
     <CheckoutContainer>
@@ -93,11 +91,12 @@ const CheckoutPanel = (props) => {
       <CheckoutWrapper>
         <PriceWrapper>
           <PriceTag>
-            {totalPrice}
+            {totalPrice === 0 ? totalPrice : totalPrice.toFixed(2)}
           </PriceTag>
         </PriceWrapper>
         <OrderButtonWrapper>
           <ConfirmButton
+            disabled={totalPrice === 0}
             onClick={clickModal}
           >
             Modal
@@ -120,22 +119,22 @@ const CheckoutPanel = (props) => {
 };
 
 export default compose(
-  withModal(ModalContent),
   (BaseComponent) => (props) => {
     console.log('check out', props);
 
     const {
+      productList,
       localOrder,
       setLocalOrder,
       createOrder,
-      toggleModal,
     } = props;
 
-    const history = useHistory();
+    const totalPrice = React.useMemo(() => localOrder.reduce((acc, order) => {
+      const { price } = productList.find((product) => product.p_id === order.id);
+      return acc + price * order.count;
+    }, 0), [localOrder, productList]);
 
-    const clickModal = () => {
-      toggleModal(true);
-    };
+    const history = useHistory();
 
     const clickSubmitOrderHandler = () => {
       const resolve = () => {
@@ -156,12 +155,12 @@ export default compose(
     return (
       <BaseComponent
         {...props}
+        totalPrice={totalPrice}
         clickSubmitOrderHandler={clickSubmitOrderHandler}
         clickCancelOrderHandler={clickCancelOrderHandler}
         clickOrderButtonHandler={clickOrderButtonHandler}
-        //
-        clickModal={clickModal}
       />
     );
   },
+  withModal(ModalContent),
 )(CheckoutPanel);
