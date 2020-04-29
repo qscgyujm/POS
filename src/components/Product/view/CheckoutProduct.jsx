@@ -69,7 +69,6 @@ const ConfirmButton = styled(Button)`
 const CheckoutPanel = (props) => {
   const {
     totalPrice,
-    clickSubmitOrderHandler,
     clickCancelOrderHandler,
     clickOrderButtonHandler,
     toggleModal,
@@ -98,12 +97,6 @@ const CheckoutPanel = (props) => {
           <ConfirmButton
             disabled={totalPrice === 0}
             onClick={clickModal}
-          >
-            Modal
-          </ConfirmButton>
-          <ConfirmButton
-            disabled={totalPrice === 0}
-            onClick={clickSubmitOrderHandler}
           >
             送出
           </ConfirmButton>
@@ -136,14 +129,6 @@ export default compose(
 
     const history = useHistory();
 
-    const clickSubmitOrderHandler = () => {
-      const resolve = () => {
-        setLocalOrder([]);
-      };
-
-      createOrder(localOrder, resolve);
-    };
-
     const clickCancelOrderHandler = () => {
       setLocalOrder([]);
     };
@@ -156,7 +141,6 @@ export default compose(
       <BaseComponent
         {...props}
         totalPrice={totalPrice}
-        clickSubmitOrderHandler={clickSubmitOrderHandler}
         clickCancelOrderHandler={clickCancelOrderHandler}
         clickOrderButtonHandler={clickOrderButtonHandler}
       />

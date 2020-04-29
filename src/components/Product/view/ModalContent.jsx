@@ -127,7 +127,7 @@ const ModalContent = (props) => {
                   </Content>
                   <ControlWrapper>
                     <Button
-                      onClick={() => clickAddHandler(p.id, id)}
+                      onClick={() => clickAddHandler(id)}
                     >
                       +
                     </Button>
@@ -137,7 +137,7 @@ const ModalContent = (props) => {
                       {p.count}
                     </Content>
                     <Button
-                      onClick={() => clickMinusHandler(p.id, id)}
+                      onClick={() => clickMinusHandler(id)}
                     >
                       -
                     </Button>
@@ -191,7 +191,7 @@ export default compose(
       toggleModal(false);
     };
 
-    const clickAddHandler = (pId, idx) => {
+    const clickAddHandler = (idx) => {
       const newOrder = cloneDeep(localOrder);
 
       newOrder[idx] = {
@@ -202,7 +202,16 @@ export default compose(
       setLocalOrder(newOrder);
     };
 
-    const clickMinusHandler = (pId, idx) => {
+    const clickMinusHandler = (idx) => {
+      if (
+        localOrder.length === 1
+        && localOrder[0].count === 1
+      ) {
+        setLocalOrder([]);
+        toggleModal(false);
+        return;
+      }
+
       if (localOrder[idx].count === 1) {
         const newOrder = localOrder.splice(idx, 1);
 
