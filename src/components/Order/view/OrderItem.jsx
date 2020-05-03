@@ -1,28 +1,39 @@
 /* eslint camelcase: "off" */
 
 import React from 'react';
-import styled from 'styled-components';
-import compose from 'helper/compose';
+import styled, { css } from 'styled-components';
 import { format } from 'date-fns';
 
-import { Button } from '../../../styles/unit';
+import compose from 'helper/compose';
+import withModal from '../../../hoc/withModal';
+
+import { Button } from '../style/unit';
+import ModalContent from './ModalContent';
+import DetailItem from './DetailItem';
 
 const ItemContainer = styled.div`
   margin-bottom: 5px;
+
+  ${(props) => props.isDisplay && css`
+    background-color: #FFF;
+    border-radius: 5px;
+  `}
 `;
 
 const ItemWrapper = styled.div`
-  display: flex;
   border: 1px solid #e9e9e9;
   border-radius: 5px;
   background-color: #e9e9e9;
   
   padding: 5px;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const InfoContentWrapper = styled.div`
   display: flex;
 `;
 
@@ -32,19 +43,29 @@ const InfoWrapper = styled.div`
   }
 `;
 
-const EditWrapper = styled.div`
+const ButtonWrapper = styled.div`
 `;
 
 const OrderButton = styled(Button)`
   :not(:last-of-type) {
-    margin-right: 15px;
+    margin-right: 30px;
   }
+`;
+
+const DetailWrapper = styled.div`
+  display: ${(props) => (props.isDisplay ? 'block' : 'none')};
+  padding: 10px 20px;
 `;
 
 const convertDateTime = (time) => format(new Date(time), 'yy/MM/dd HH:mm:ss');
 
 const OrderItem = (props) => {
-  const { order, clickSubmitOrderHandler, clickDeleteOrderHandler } = props;
+  const {
+    order,
+    isDetail,
+    clickModal,
+    clickDisplayHandler,
+  } = props;
   const {
     order_id,
     totalPrice,
@@ -52,62 +73,76 @@ const OrderItem = (props) => {
   } = order;
 
   return (
-    <ItemContainer>
+    <ItemContainer
+      isDisplay={isDetail}
+    >
       <ItemWrapper>
         <ContentWrapper>
-          <InfoWrapper>
-            Order 序號:
-            {' '}
-            {order_id}
-          </InfoWrapper>
-          <InfoWrapper>
-            總價格:
-            {' '}
-            {totalPrice}
-          </InfoWrapper>
-          <InfoWrapper>
-            建立時間:
-            {convertDateTime(createdAt)}
-          </InfoWrapper>
+          <InfoContentWrapper>
+            <InfoWrapper>
+              Order Number:
+              {' '}
+              {order_id}
+            </InfoWrapper>
+            <InfoWrapper>
+              總價格:
+              {' '}
+              {totalPrice}
+            </InfoWrapper>
+          </InfoContentWrapper>
+          <ButtonWrapper>
+            <OrderButton
+              onClick={clickDisplayHandler}
+            >
+              Detail
+            </OrderButton>
+            <OrderButton
+              onClick={clickModal}
+            >
+              Checkout
+            </OrderButton>
+            {/* createdAt:
+            {convertDateTime(createdAt)} */}
+          </ButtonWrapper>
         </ContentWrapper>
-        <EditWrapper>
-          <OrderButton
-            onClick={clickDeleteOrderHandler}
-          >
-            刪除
-          </OrderButton>
-          <OrderButton
-            onClick={clickSubmitOrderHandler}
-          >
-            出單
-          </OrderButton>
-        </EditWrapper>
       </ItemWrapper>
+      {
+        isDetail
+        && (
+        <DetailWrapper
+          isDisplay={isDetail}
+        >
+          <DetailItem
+            detailList={order.list}
+          />
+        </DetailWrapper>
+        )
+      }
     </ItemContainer>
   );
 };
 
 export default compose(
+  withModal(ModalContent),
   (BaseComponent) => (props) => {
-    console.log('props', props);
-    const { order, deleteOrder, updateSubmitOrder } = props;
+    const { toggleModal } = props;
 
-    const clickSubmitOrderHandler = () => {
-      const { order_id: orderId } = order;
+    const [isDetail, setIsDetail] = React.useState(false);
 
-      updateSubmitOrder(orderId);
+    const clickDisplayHandler = () => {
+      setIsDetail(!isDetail);
     };
 
-    const clickDeleteOrderHandler = () => {
-      const { order_id: orderId } = order;
-      deleteOrder(orderId);
+    const clickModal = () => {
+      toggleModal(true);
     };
 
     return (
       <BaseComponent
         {...props}
-        clickSubmitOrderHandler={clickSubmitOrderHandler}
-        clickDeleteOrderHandler={clickDeleteOrderHandler}
+        isDetail={isDetail}
+        clickModal={clickModal}
+        clickDisplayHandler={clickDisplayHandler}
       />
     );
   },

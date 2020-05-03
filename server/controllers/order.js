@@ -5,27 +5,14 @@ import productModel from '../models/product';
 
 import { getTime } from '../helper/time';
 
-const convertDetailOrderList = (orderList) => orderList
-  .map((order) => ({
-    ...order,
-    productIdAry: order.productIdAry.split(','),
-    quantityAry: order.quantityAry.split(','),
-  }))
-  .map((order) => ({
-    ...order,
-    detailOrder: order.productIdAry.map((id, i) => ({
-      id,
-      quantity: order.quantityAry[i],
-    })),
-  }))
-  .map((order) => pick(order, ['order_id', 'totalPrice', 'detailOrder', 'createdAt']));
-
 export async function fetchOrderByUserId(req, res) {
   const { userId } = req;
   try {
-    const orderList = await orderModel.findByUserId(userId);
-
-    const orderDetailList = convertDetailOrderList(orderList);
+    const newOrderList = await orderModel.findAllOrderByUserId(userId);
+    const orderDetailList = newOrderList.map((order) => ({
+      ...order,
+      list: JSON.parse(order.list),
+    }));
 
     return res.status(200).json({
       orderDetailList,
@@ -44,21 +31,15 @@ export async function createOrder(req, res) {
     const orders = req.body.order;
     console.log('orders', orders);
 
-    const orderProductIds = orders.map((order) => order.id);
-    const productList = await productModel.findByIds(orderProductIds);
-
-    const replacements = orders.map((order) => {
-      const productInfo = productList.find((product) => product.p_id === order.id);
-      return [
-        orderNumber + 1,
-        productInfo.p_id,
-        userId,
-        order.count,
-        productInfo.price * order.count,
-        getTime(),
-        getTime(),
-      ];
-    });
+    const replacements = orders.map((order) => [
+      orderNumber + 1,
+      order.p_id,
+      userId,
+      order.count,
+      order.price * order.count,
+      getTime(),
+      getTime(),
+    ]);
 
     if (!await orderModel.insertMany(replacements)) {
       return res.sendStatus(401);
@@ -70,12 +51,10 @@ export async function createOrder(req, res) {
   }
 }
 
-export async function updateOrderSubmit(req, res) {
-  const { userId } = req;
+export async function updateOrderMiddleware(req, res, next) {
+  const orderId = pick(req.params, 'id').id;
 
   try {
-    const orderId = pick(req.params, 'id').id;
-
     const updateCount = await orderModel.updateSubmission({
       order_id: orderId,
     });
@@ -84,33 +63,37 @@ export async function updateOrderSubmit(req, res) {
       return res.sendStatus(401);
     }
 
-    const orderList = await orderModel.findByUserId(userId);
-    const orderDetailList = convertDetailOrderList(orderList);
-
-    return res.status(200).json({
-      orderDetailList,
-    });
+    next();
   } catch (error) {
     return res.sendStatus(401);
   }
 }
 
-export async function deleteOrder(req, res) {
-  const { userId } = req;
+export async function dealOrderMiddleware(req, res, next) {
+  const orderId = pick(req.params, 'id').id;
 
   try {
-    const orderId = pick(req.params, 'id').id;
+    const updateCount = await orderModel.updateDealOrder(orderId);
 
+    if (updateCount === 0) {
+      return res.sendStatus(401);
+    }
+
+    next();
+  } catch (error) {
+    return res.sendStatus(401);
+  }
+}
+
+export async function deleteOrderMiddleware(req, res, next) {
+  const orderId = pick(req.params, 'id').id;
+
+  try {
     if (!await orderModel.delete(orderId)) {
       return res.sendStatus(401);
     }
 
-    const orderList = await orderModel.findByUserId(userId);
-    const orderDetailList = convertDetailOrderList(orderList);
-
-    return res.status(200).json({
-      orderDetailList,
-    });
+    next();
   } catch (error) {
     return res.sendStatus(404);
   }

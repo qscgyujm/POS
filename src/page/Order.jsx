@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchOrder,
     updateOrder,
     deleteOrder,
-    updateSubmitOrder,
+    updateDealOrder,
   } = orderAction;
 
   return {
@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => {
       fetchOrder,
       updateOrder,
       deleteOrder,
-      updateSubmitOrder,
+      updateDealOrder,
     }, dispatch),
   };
 };

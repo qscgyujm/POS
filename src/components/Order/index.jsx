@@ -23,9 +23,10 @@ const MoveButton = styled(Button)`
 `;
 
 const index = (props) => {
+  console.log(props);
   const {
     orderList,
-    updateSubmitOrder,
+    updateDealOrder,
     deleteOrder,
     clickMoveToProductHandler,
   } = props;
@@ -46,7 +47,7 @@ const index = (props) => {
               key={i.toString()}
               order={order}
               deleteOrder={deleteOrder}
-              updateSubmitOrder={updateSubmitOrder}
+              updateDealOrder={updateDealOrder}
             />
           ))
         }
@@ -65,7 +66,6 @@ export default compose(
       () => {
         fetchOrder();
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [],
     );
 

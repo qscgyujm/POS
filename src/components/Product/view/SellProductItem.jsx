@@ -17,7 +17,7 @@ const ProductContainer = styled.div`
   padding: 10px;
   box-sizing: border-box;
 
-  ${media.tablet`
+  ${media.laptop`
     width: 50%;
   `}
 `;
@@ -47,13 +47,11 @@ const SellProduct = (props) => {
   const { p_id } = product;
 
   const orderCount = React.useMemo(() => {
-    if (
-      isEmpty(localOrder)
-    ) {
+    if (isEmpty(localOrder)) {
       return 0;
     }
 
-    const order = localOrder.find((o) => o.id === p_id);
+    const order = localOrder.find((o) => o.p_id === p_id);
     if (order) {
       return order.count;
     }
@@ -90,15 +88,17 @@ export default compose(
   withWrapper(ProductContainer),
   withWrapper(ProductWrapper),
   (BaseComponent) => (props) => {
+    // console.log('product', props);
+
     const { product, localOrder, setLocalOrder } = props;
     const { p_id } = product;
 
     const clickAddButtonHandler = () => {
-      const index = localOrder.findIndex((order) => order.id === p_id);
+      const index = localOrder.findIndex((order) => order.p_id === p_id);
 
       if (isEmpty(localOrder)) {
         setLocalOrder([{
-          id: p_id,
+          ...product,
           count: 1,
         }]);
         return;
@@ -106,7 +106,7 @@ export default compose(
 
       if (index < 0) {
         setLocalOrder(localOrder.concat({
-          id: p_id,
+          ...product,
           count: 1,
         }));
         return;
@@ -122,18 +122,17 @@ export default compose(
     };
 
     const clickMinusButtonHandler = () => {
-      const index = localOrder.findIndex((order) => order.id === p_id);
+      const index = localOrder.findIndex((order) => order.p_id === p_id);
 
       if (index < 0) {
         return;
       }
 
-      if (
-        index === 0
-        && localOrder.length === 1
-        && localOrder[0].count === 1
-      ) {
-        setLocalOrder([]);
+      if (localOrder[index].count === 1) {
+        const newOrder = [...localOrder];
+        newOrder.splice(index, 1);
+
+        setLocalOrder(newOrder);
         return;
       }
 

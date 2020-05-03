@@ -19,6 +19,8 @@ const PathWrapper = styled.div`
 `;
 
 const LinkTag = styled.span`
+  font-weight: 700;
+  font-size: 20px;
 `;
 
 const LogoutWrapper = styled.div`

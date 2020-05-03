@@ -17,15 +17,12 @@ const ActionType = {
   CREATE_ORDER_REQUEST: 'CREATE_ORDER_REQUEST',
   CREATE_ORDER_SUCCESS: 'CREATE_ORDER_SUCCESS',
   CREATE_ORDER_FAILURE: 'CREATE_ORDER_FAILURE',
-  UPDATE_ORDER_REQUEST: 'UPDATE_ORDER_REQUEST',
-  UPDATE_ORDER_SUCCESS: 'UPDATE_ORDER_SUCCESS',
-  UPDATE_ORDER_FAILURE: 'UPDATE_ORDER_FAILURE',
   DELETE_ORDER_REQUEST: 'DELETE_ORDER_REQUEST',
   DELETE_ORDER_SUCCESS: 'DELETE_ORDER_SUCCESS',
   DELETE_ORDER_FAILURE: 'DELETE_ORDER_FAILURE',
-  UPDATE_SUBMIT_ORDER_REQUEST: 'UPDATE_SUBMIT_ORDER_REQUEST',
-  UPDATE_SUBMIT_ORDER_FAILURE: 'UPDATE_SUBMIT_ORDER_FAILURE',
-  UPDATE_SUBMIT_ORDER_SUCCESS: 'UPDATE_SUBMIT_ORDER_SUCCESS',
+  UPDATE_DEAL_ORDER_REQUEST: 'UPDATE_DEAL_ORDER_REQUEST',
+  UPDATE_DEAL_ORDER_FAILURE: 'UPDATE_DEAL_ORDER_FAILURE',
+  UPDATE_DEAL_ORDER_SUCCESS: 'UPDATE_DEAL_ORDER_SUCCESS',
 };
 
 export const action = {
@@ -35,15 +32,12 @@ export const action = {
   createOrder: (order, resolve) => ({ type: ActionType.CREATE_ORDER_REQUEST, payload: { order, resolve } }),
   createOrderSuccess: () => ({ type: ActionType.CREATE_ORDER_SUCCESS }),
   createOrderFailure: () => ({ type: ActionType.CREATE_ORDER_FAILURE }),
-  updateOrder: () => ({ type: ActionType.UPDATE_ORDER_REQUEST }),
-  updateOrderSuccess: () => ({ type: ActionType.UPDATE_ORDER_SUCCESS }),
-  updateOrderFailure: () => ({ type: ActionType.UPDATE_ORDER_FAILURE }),
   deleteOrder: (orderId) => ({ type: ActionType.DELETE_ORDER_REQUEST, payload: orderId }),
   deleteOrderSuccess: (orderList) => ({ type: ActionType.DELETE_ORDER_SUCCESS, payload: orderList }),
   deleteOrderFailure: () => ({ type: ActionType.DELETE_ORDER_FAILURE }),
-  updateSubmitOrder: (orderId) => ({ type: ActionType.UPDATE_SUBMIT_ORDER_REQUEST, payload: orderId }),
-  updateSubmitOrderSuccess: (orderList) => ({ type: ActionType.UPDATE_SUBMIT_ORDER_SUCCESS, payload: orderList }),
-  updateSubmitOrderFailure: () => ({ type: ActionType.UPDATE_SUBMIT_ORDER_FAILURE }),
+  updateDealOrder: (orderId) => ({ type: ActionType.UPDATE_DEAL_ORDER_REQUEST, payload: orderId }),
+  updateDealOrderSuccess: (orderList) => ({ type: ActionType.UPDATE_DEAL_ORDER_SUCCESS, payload: orderList }),
+  updateDealOrderFailure: () => ({ type: ActionType.UPDATE_DEAL_ORDER_FAILURE }),
 };
 
 // Saga
@@ -80,31 +74,19 @@ function* createOrderSaga({ payload }) {
   }
 }
 
-function* updateOrderSaga(payload) {
+function* updateDealOrderSaga({ payload }) {
   try {
-    const token = localStorage.getItem('token');
-
-    yield call(API.updateSubmitOrder, { payload, token });
-
-    yield put(action.updateOrderSuccess());
-  } catch (error) {
-    yield put(action.updateOrderFailure());
-  }
-}
-
-function* updateSubmitOrderSaga({ payload }) {
-  try {
-    console.log('updateSubmitOrderSaga', payload);
+    console.log('updateDealOrderSaga', payload);
 
     const token = localStorage.getItem('token');
 
-    const { data } = yield call(API.updateSubmitOrder, { payload, token });
+    const { data } = yield call(API.updateDealOrder, { payload, token });
     const { orderDetailList } = data;
     console.log('orderDetailList', orderDetailList);
 
-    yield put(action.updateSubmitOrderSuccess(orderDetailList));
+    yield put(action.updateDealOrderSuccess(orderDetailList));
   } catch (error) {
-    yield put(action.updateSubmitOrderFailure());
+    yield put(action.updateDealOrderFailure());
   }
 }
 
@@ -127,8 +109,7 @@ function* deleteOrderSaga({ payload }) {
 export const saga = [
   takeLatest(ActionType.FETCH_ORDER_REQUEST, fetchOrderSaga),
   takeLatest(ActionType.CREATE_ORDER_REQUEST, createOrderSaga),
-  takeLatest(ActionType.UPDATE_ORDER_REQUEST, updateOrderSaga),
-  takeLatest(ActionType.UPDATE_SUBMIT_ORDER_REQUEST, updateSubmitOrderSaga),
+  takeLatest(ActionType.UPDATE_DEAL_ORDER_REQUEST, updateDealOrderSaga),
   takeLatest(ActionType.DELETE_ORDER_REQUEST, deleteOrderSaga),
 ];
 
@@ -170,18 +151,18 @@ export const reducer = (state = initialState, action) => {
         ...state,
         isFetch: false,
       };
-    case ActionType.UPDATE_SUBMIT_ORDER_REQUEST:
+    case ActionType.UPDATE_DEAL_ORDER_REQUEST:
       return {
         ...state,
         isFetch: true,
       };
-    case ActionType.UPDATE_SUBMIT_ORDER_FAILURE:
+    case ActionType.UPDATE_DEAL_ORDER_FAILURE:
       return {
         ...state,
         isError: true,
         isFetch: false,
       };
-    case ActionType.UPDATE_SUBMIT_ORDER_SUCCESS:
+    case ActionType.UPDATE_DEAL_ORDER_SUCCESS:
       return {
         ...state,
         isFetch: false,

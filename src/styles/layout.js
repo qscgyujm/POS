@@ -21,8 +21,7 @@ export const LoginContainer = styled.div`
   background-color: #cfe1e6;
   min-height: calc(100vh - 50px);
 
-  ${media.tablet`
+  ${media.laptop`
     margin: 0;
-    min-height: 100vh;
   `}
 `;

@@ -22,7 +22,7 @@ export async function getUserProductInfo(req, res) {
     }
 
     const deletedProducts = allProductList
-      .filter((product) => !productList.find((p) => product.p_id === p.id));
+      .filter((product) => !productList.find((p) => product.p_id === p.p_id));
 
     return res.status(200).json({
       productList,

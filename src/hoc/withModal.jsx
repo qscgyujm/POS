@@ -21,7 +21,6 @@ const Backdrop = styled.div`
   width: 100%;
   z-index: 60;
   background-color: ${rgba(0, 0, 0, 0.5)};
-  /* background-color: #fcc; */
 `;
 
 const ModalWrapper = styled.div`
@@ -38,6 +37,7 @@ const ModalWrapper = styled.div`
 `;
 
 const ModalContainer = styled.div`
+  justify-content: center;
   align-items: center;
   display: flex;
   margin: 1.75rem auto;
@@ -45,7 +45,6 @@ const ModalContainer = styled.div`
   padding: 0 16px;
   width: 100%;
 `;
-
 
 const withModal = (
   InnerComponent,
@@ -101,6 +100,14 @@ const withModal = (
         />
       );
 
+      const clickHandle = (e) => {
+        e.preventDefault();
+
+        if (e.target === e.currentTarget) {
+          this.toggleModal(false);
+        }
+      };
+
       return (
         <>
           {
@@ -109,7 +116,9 @@ const withModal = (
                 <>
                   <Backdrop />
                   <ModalWrapper>
-                    <ModalContainer>
+                    <ModalContainer
+                      onClick={clickHandle}
+                    >
                       {content}
                     </ModalContainer>
                   </ModalWrapper>

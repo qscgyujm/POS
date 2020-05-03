@@ -3,14 +3,19 @@ import styled from 'styled-components';
 import compose from 'helper/compose';
 import { useHistory } from 'react-router-dom';
 
-import withModal from '../../../hoc/withModal';
+import withModal from '../../hoc/withModal';
 
-import { media } from '../../../helper/media';
+import { media } from '../../helper/media';
 
-import ModalContent from './ModalContent';
-import { Button } from '../../../styles/unit';
+import { Button } from './style/unit';
+import CheckoutItem from './view/CheckoutItem';
+import ModalContent from './view/ModalContent';
+
 
 const CheckoutContainer = styled.div`
+`;
+
+const CheckoutWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px;
@@ -23,7 +28,7 @@ const CheckoutContainer = styled.div`
 const ButtonWrapper = styled.div`
 `;
 
-const CheckoutWrapper = styled.div`
+const CheckoutContentWrapper = styled.div`
   display: flex;
 
   ${media.tablet`
@@ -60,6 +65,10 @@ const OrderButtonWrapper = styled.div`
 const OrderButton = styled(Button)`
 `;
 
+const OrderWrapper = styled.div`
+  padding: 10px;
+`;
+
 const ConfirmButton = styled(Button)`
   :not(:last-of-type) {
     margin-right: 15px;
@@ -68,10 +77,13 @@ const ConfirmButton = styled(Button)`
 
 const CheckoutPanel = (props) => {
   const {
+    localOrder,
+    setLocalOrder,
     totalPrice,
     clickCancelOrderHandler,
     clickOrderButtonHandler,
     toggleModal,
+
   } = props;
 
   const clickModal = () => {
@@ -80,33 +92,50 @@ const CheckoutPanel = (props) => {
 
   return (
     <CheckoutContainer>
-      <ButtonWrapper>
-        <OrderButton
-          onClick={clickOrderButtonHandler}
-        >
-          To Order
-        </OrderButton>
-      </ButtonWrapper>
       <CheckoutWrapper>
-        <PriceWrapper>
-          <PriceTag>
-            {totalPrice === 0 ? totalPrice : totalPrice.toFixed(2)}
-          </PriceTag>
-        </PriceWrapper>
-        <OrderButtonWrapper>
-          <ConfirmButton
-            disabled={totalPrice === 0}
-            onClick={clickModal}
+
+        <ButtonWrapper>
+          <OrderButton
+            onClick={clickOrderButtonHandler}
           >
-            送出
-          </ConfirmButton>
-          <ConfirmButton
-            onClick={clickCancelOrderHandler}
-          >
-            取消
-          </ConfirmButton>
-        </OrderButtonWrapper>
+            To Order
+          </OrderButton>
+        </ButtonWrapper>
+        <CheckoutContentWrapper>
+          <PriceWrapper>
+            <PriceTag>
+              {totalPrice === 0 ? totalPrice : totalPrice.toFixed(2)}
+            </PriceTag>
+          </PriceWrapper>
+          <OrderButtonWrapper>
+            <ConfirmButton
+              disabled={totalPrice === 0}
+              onClick={clickModal}
+            >
+              送出
+            </ConfirmButton>
+            <ConfirmButton
+              onClick={clickCancelOrderHandler}
+            >
+              取消
+            </ConfirmButton>
+          </OrderButtonWrapper>
+        </CheckoutContentWrapper>
       </CheckoutWrapper>
+      <OrderWrapper>
+        {
+          localOrder
+          && localOrder.map((order, i) => (
+            <CheckoutItem
+              key={i.toString()}
+              idx={i}
+              order={order}
+              localOrder={localOrder}
+              setLocalOrder={setLocalOrder}
+            />
+          ))
+        }
+      </OrderWrapper>
     </CheckoutContainer>
   );
 };
@@ -116,16 +145,17 @@ export default compose(
     console.log('check out', props);
 
     const {
-      productList,
       localOrder,
       setLocalOrder,
-      createOrder,
     } = props;
 
-    const totalPrice = React.useMemo(() => localOrder.reduce((acc, order) => {
-      const { price } = productList.find((product) => product.p_id === order.id);
-      return acc + price * order.count;
-    }, 0), [localOrder, productList]);
+    const totalPrice = React.useMemo(
+      () => localOrder.reduce(
+        (acc, order) => acc + order.price * order.count,
+        0,
+      ),
+      [localOrder],
+    );
 
     const history = useHistory();
 

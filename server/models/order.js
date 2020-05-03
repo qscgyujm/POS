@@ -22,6 +22,49 @@ class OrderRepo {
     }
   }
 
+  async findAllOrderByUserId(id) {
+    const sql = `
+      SELECT 
+        o.order_id, 
+        Concat(
+          '[', 
+          Group_concat(
+            Json_object( 
+              'id', p.p_id, 
+              'name', p.name, 
+              'price', p.price,
+              'quantity', o.quantity
+            )
+          ), 
+          ']'
+        ) AS list,
+        SUM(o.price) as totalPrice,
+        o.createdAt
+      FROM orders AS o 
+      LEFT JOIN products AS p ON o.product_id = p.p_id 
+      WHERE  
+        user_id = :id
+        AND iscomplete = 0 
+      GROUP  BY o.order_id 
+    `;
+
+    try {
+      const results = await this.dataPool.query(
+        sql,
+        {
+          replacements: {
+            id,
+          },
+          type: QueryTypes.SELECT,
+        },
+      );
+      return results;
+    } catch (error) {
+      return error;
+    }
+  }
+
+
   async findByUserId(userId) {
     const sql = `
       SELECT
@@ -83,17 +126,19 @@ class OrderRepo {
     }
   }
 
-  async updateSubmission(replacements) {
+  async updateDealOrder(id) {
     const sql = `
       UPDATE orders
         SET
           isComplete = 1
-        WHERE order_id = :order_id
+        WHERE order_id = :id
     `;
 
     try {
       const [, updateCount] = await this.dataPool.query(sql, {
-        replacements,
+        replacements: {
+          id,
+        },
         type: QueryTypes.UPDATE,
       });
 

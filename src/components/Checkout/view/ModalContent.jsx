@@ -56,6 +56,7 @@ const ContentWrapper = styled.div`
 `;
 
 const Content = styled.div`
+  text-align: center;
 `;
 
 const ControlWrapper = styled.div`
@@ -122,10 +123,18 @@ const ModalContent = (props) => {
                 key={id.toString()}
               >
                 <ContentWrapper>
-                  <Content>
+                  <Content
+                    style={{
+                      flex: '1',
+                    }}
+                  >
                     {p.name}
                   </Content>
-                  <ControlWrapper>
+                  <ControlWrapper
+                    style={{
+                      flex: '1',
+                    }}
+                  >
                     <Button
                       onClick={() => clickAddHandler(id)}
                     >

@@ -18,9 +18,18 @@ export const createOrder = (payload) => {
   });
 };
 
-export const updateSubmitOrder = ({ payload, token }) => {
-  console.log('updateSubmitOrder', payload, token);
+export const updateOrder = ({ payload, token }) => {
+  console.log('updateOrder', payload, token);
   return apiRoot.put(`/order/${payload}`, null, {
+    headers: {
+      Authorization: token,
+    },
+  });
+};
+
+export const updateDealOrder = ({ payload, token }) => {
+  console.log('updateDealOrder', payload, token);
+  return apiRoot.put(`/order/deal/${payload}`, null, {
     headers: {
       Authorization: token,
     },

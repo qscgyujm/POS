@@ -4,16 +4,33 @@ import compose from 'helper/compose';
 import { isEmpty } from 'lodash';
 
 import withWrapper from '../../hoc/withWrapper';
+import { media } from '../../helper/media';
 
 import { LoginContainer } from '../../styles/layout';
 
 import Loading from '../Loading';
 import SellProductItem from './view/SellProductItem';
-import CheckoutProduct from './view/CheckoutProduct';
+import Checkout from '../Checkout';
+
+const CheckoutContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+`;
 
 const ProductWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
+  flex: 2;
+
+  ${media.laptop`
+    overflow-y: auto;
+    max-height: calc(100vh - 50px);
+  `}
+`;
+
+const CheckoutWrapper = styled.div`
+  flex: 1;
 `;
 
 const SellProductTable = (props) => {
@@ -22,13 +39,7 @@ const SellProductTable = (props) => {
   const [localOrder, setLocalOrder] = React.useState([]);
 
   return (
-    <>
-      <CheckoutProduct
-        localOrder={localOrder}
-        setLocalOrder={setLocalOrder}
-        productList={productList}
-        createOrder={createOrder}
-      />
+    <CheckoutContainer>
       <ProductWrapper>
         {
           productList.map((product, i) => (
@@ -42,7 +53,15 @@ const SellProductTable = (props) => {
           ))
         }
       </ProductWrapper>
-    </>
+      <CheckoutWrapper>
+        <Checkout
+          localOrder={localOrder}
+          setLocalOrder={setLocalOrder}
+          productList={productList}
+          createOrder={createOrder}
+        />
+      </CheckoutWrapper>
+    </CheckoutContainer>
   );
 };
 

@@ -44,8 +44,9 @@ router.post('/user/password', userController.changePassword);
 // Order
 router.get('/order', orderController.fetchOrderByUserId);
 router.post('/order', orderController.createOrder);
-router.put('/order/:id', orderController.updateOrderSubmit);
-router.delete('/order/:id', orderController.deleteOrder);
+router.put('/order/:id', orderController.updateOrderMiddleware, orderController.fetchOrderByUserId);
+router.put('/order/deal/:id', orderController.dealOrderMiddleware, orderController.fetchOrderByUserId);
+router.delete('/order/:id', orderController.deleteOrderMiddleware, orderController.fetchOrderByUserId);
 
 
 export default router;
