@@ -15,7 +15,6 @@ export default async (req, res, next) => {
         Login: userId: ${userInfo.id} \n
           Name: ${userInfo.name} \n
           loginTime: ${convertTime(new Date(getTime()))} \n
-          ip: ${req.ip}
       `,
       channel: '#pos-bot',
       username: 'webhookbot',

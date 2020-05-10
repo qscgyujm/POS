@@ -57,8 +57,6 @@ const DetailWrapper = styled.div`
   padding: 10px 20px;
 `;
 
-const convertDateTime = (time) => format(new Date(time), 'yy/MM/dd HH:mm:ss');
-
 const OrderItem = (props) => {
   const {
     order,
@@ -101,8 +99,11 @@ const OrderItem = (props) => {
             >
               Checkout
             </OrderButton>
-            {/* createdAt:
-            {convertDateTime(createdAt)} */}
+            <OrderButton
+              onClick={clickModal}
+            >
+              Deleted
+            </OrderButton>
           </ButtonWrapper>
         </ContentWrapper>
       </ItemWrapper>

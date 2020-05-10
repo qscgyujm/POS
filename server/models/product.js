@@ -63,7 +63,7 @@ class Product {
         NOW(),
         NOW()
       )
-  `;
+    `;
 
     try {
       const product = await this.dataPool.query(
